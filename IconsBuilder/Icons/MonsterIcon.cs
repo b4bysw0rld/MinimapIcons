@@ -31,10 +31,10 @@ public class MonsterIcon : BaseIcon
 
         MainTexture.Size = Rarity switch
         {
-            MonsterRarity.White => settings.SizeEntityWhiteIcon,
-            MonsterRarity.Magic => settings.SizeEntityMagicIcon,
-            MonsterRarity.Rare => settings.SizeEntityRareIcon,
-            MonsterRarity.Unique => settings.SizeEntityUniqueIcon,
+            MonsterRarity.White => settings.MonsterIcons.WhiteMonsterSize,
+            MonsterRarity.Magic => settings.MonsterIcons.MagicMonsterSize,
+            MonsterRarity.Rare => settings.MonsterIcons.RareMonsterSize,
+            MonsterRarity.Unique => settings.MonsterIcons.UniqueMonsterSize,
             _ => throw new ArgumentException($"{nameof(MonsterIcon)} wrong rarity for {entity.Path}. Dump: {entity.GetComponent<ObjectMagicProperties>().DumpObject()}")
         };
 
@@ -83,18 +83,38 @@ public class MonsterIcon : BaseIcon
                 switch (Rarity)
                 {
                     case MonsterRarity.White:
-                        MainTexture.UV = SpriteHelper.GetUV(MapIconsIndex.LootFilterLargeRedCircle);
+                        MainTexture.UV = SpriteHelper.GetUV(settings.MonsterIcons.WhiteMonsterIcon);
+                        MainTexture.Color = Color.FromArgb(
+                            settings.MonsterIcons.WhiteMonsterTint.A,
+                            settings.MonsterIcons.WhiteMonsterTint.R,
+                            settings.MonsterIcons.WhiteMonsterTint.G,
+                            settings.MonsterIcons.WhiteMonsterTint.B);
                         break;
                     case MonsterRarity.Magic:
-                        MainTexture.UV = SpriteHelper.GetUV(MapIconsIndex.LootFilterLargeBlueCircle);
-
+                        MainTexture.UV = SpriteHelper.GetUV(settings.MonsterIcons.MagicMonsterIcon);
+                        MainTexture.Color = Color.FromArgb(
+                            settings.MonsterIcons.MagicMonsterTint.A,
+                            settings.MonsterIcons.MagicMonsterTint.R,
+                            settings.MonsterIcons.MagicMonsterTint.G,
+                            settings.MonsterIcons.MagicMonsterTint.B);
                         break;
                     case MonsterRarity.Rare:
-                        MainTexture.UV = SpriteHelper.GetUV(MapIconsIndex.LootFilterLargeYellowCircle);
+                        MainTexture.UV = SpriteHelper.GetUV(settings.MonsterIcons.RareMonsterIcon);
+                        MainTexture.Color = Color.FromArgb(
+                            settings.MonsterIcons.RareMonsterTint.A,
+                            settings.MonsterIcons.RareMonsterTint.R,
+                            settings.MonsterIcons.RareMonsterTint.G,
+                            settings.MonsterIcons.RareMonsterTint.B);
                         break;
                     case MonsterRarity.Unique:
-                        MainTexture.UV = SpriteHelper.GetUV(MapIconsIndex.LootFilterLargeWhiteHexagon);
-                        MainTexture.Color = Color.DarkOrange;
+                        MainTexture.UV = SpriteHelper.GetUV(settings.MonsterIcons.UniqueMonsterIcon);
+                        MainTexture.Color = Color.FromArgb(
+                            settings.MonsterIcons.UniqueMonsterTint.A,
+                            settings.MonsterIcons.UniqueMonsterTint.R,
+                            settings.MonsterIcons.UniqueMonsterTint.G,
+                            settings.MonsterIcons.UniqueMonsterTint.B);
+                        if (settings.MonsterIcons.ShowUniqueNames)
+                            Text = RenderName.Split(',').FirstOrDefault();
                         break;
                     default:
                         throw new ArgumentOutOfRangeException(
